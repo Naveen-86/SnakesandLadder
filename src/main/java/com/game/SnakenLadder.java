@@ -3,53 +3,89 @@ package com.game;
 import java.util.Random;
 
 public class SnakenLadder {
+    //Constants
+    static final int START_POSITION = 0;
+    static final int WINNING_POSITION = 100;
+    static final int LADDER = 1;
+    static final int SNAKE = 2;
 
-    public static void main(String[] args) {
-
-        // constants
-        final int START_POSITION = 0;
-        System.out.println("You are at position : " + START_POSITION);
-        final int WINNING_POSITION = 100;
-        final int NO_PLAY = 0;
-        final int LADDER = 1;
-        final int SNAKE = 2;
-        //Variables
-        int position = 0;
-        int noOfdieRolls = 0;
-        System.out.println("Rolling Dice" );
-
-        while(position != WINNING_POSITION) {
-
-            noOfdieRolls++;
-            Random o = new Random();
-            int option = o.nextInt(3);
-
-            Random r = new Random();
-            int dice_Roll = r.nextInt(6)+1;
-
-            switch(option) {
-
-                case NO_PLAY:
-                    System.out.println("Sorry,no play!");
-                    break;
-                case LADDER:
-                    if (position + dice_Roll <= WINNING_POSITION ) {
-                        position += dice_Roll;
-                    }
-                    System.out.println("Yahoo,you got ladder!");
-                    break;
-                case SNAKE:
-                    if (position - dice_Roll >= 0) {
-                        position -= dice_Roll;
-                        System.out.println("hiss,snake bite!");
-                    } else {
-                        position = 0;
-                    }
-                    break;
-            }
-            System.out.println("After Rolling dice You are at position : " + position);
+    public static int[] play(int position) //returns integer type array
+    {
+        //Generating options for game
+        int option = (int) (Math.random()*10%3);
+        //Rolling a Die
+        int dieRoll = (int) (1+Math.random()*10%6);
+        int[] array = new int[2]; //Array to store details and return to main method
+        //Checking Ladder or Snake
+        switch(option)
+        {
+            case LADDER:
+                if((position+dieRoll) <= WINNING_POSITION)//<<---------------------
+                {
+                    position += dieRoll;
+                }
+                break;
+            case SNAKE:
+                if((position-dieRoll) >= 0)
+                {
+                    position -= dieRoll;
+                }
+                else
+                {
+                    position = 0;
+                }
+                break;
+            default: //NoPlay option
+                position += 0;
         }
-        System.out.println("Number of times Die rolled : " + noOfdieRolls);
-        System.out.println("HURRAY!,You are win");
+        array[0] = option;
+        array[1] = position;
+        return array;
     }
+
+    public static void main(String[] args)
+    {
+        //variables
+        int noOfDieRolls_1 = 0;
+        int noOfDieRolls_2 = 0;
+        int player_1_position = START_POSITION;
+        int player_2_position = START_POSITION;
+        int player_1_option = LADDER; //To play initially
+        int player_2_option = LADDER;
+        int[] player_1 = new int[2]; //Array to get player_1 details from 'play' method
+        int[] player_2 = new int[2]; //Array to get player_2 details from 'play' method
+
+        //Start the game
+        while((player_1_position != WINNING_POSITION) && (player_2_position != WINNING_POSITION))
+        {
+            while(player_1_option == LADDER)
+            {
+                player_1 = play(player_1_position);//player1
+                player_1_option = player_1[0]; //option from play method
+                player_1_position = player_1[1]; //position from play method
+                noOfDieRolls_1++;
+            }
+            while(player_2_option == LADDER)
+            {
+                player_2 = play(player_2_position);//player2
+                player_2_option = player_2[0]; //option from play method
+                player_2_position = player_2[1]; //position from play method
+                noOfDieRolls_2++;
+            }
+            player_1_option = LADDER;
+            player_2_option = LADDER;
+        }
+
+        //Checking the winner
+        if(player_1_position == WINNING_POSITION)
+        {
+            System.out.println("The winner is: Player_1 with position: "+player_1_position);
+        }
+        else
+        {
+            System.out.println("The winner is: Player_2 with position: "+player_2_position);
+        }
+        System.out.println("Number of times die rolled: "+"\n"+"Player_1: "+noOfDieRolls_1+"\n"+"Player_2: "+noOfDieRolls_2);
+    }
+
 }
