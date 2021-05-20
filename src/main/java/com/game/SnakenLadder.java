@@ -30,7 +30,9 @@ public class SnakenLadder {
                     System.out.println("Sorry,no play!");
                     break;
                 case LADDER:
-                    position += dice_Roll;
+                    if (position + dice_Roll <= WINNING_POSITION ) {
+                        position += dice_Roll;
+                    }
                     System.out.println("Yahoo,you got ladder!");
                     break;
                 case SNAKE:
