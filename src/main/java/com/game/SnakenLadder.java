@@ -3,39 +3,39 @@ package com.game;
 import java.util.Random;
 
 public class SnakenLadder {
+	public static void main(String[] args){
 
-    public static void main(String[] args) {
+		//initiallizing start point
+		int startPoint = 0;
+		int player1 = startPoint;
 
-        final int START_POSITION = 0;
-        System.out.println("You are at position : " + START_POSITION);
-        final int NO_PLAY = 0;
-        final int LADDER = 1;
-        final int SNAKE = 2;
-        int position = 0;
+		//rolling the die to get a number b/w 1 and 6
+		Random roll = new Random();
+		int dice = roll.nextInt(6) + 1;
 
-        System.out.println("Rolling Dice" );
+		//generating options i.e., 0-noplay 1-ladder 2-snake
+		Random options = new Random();
+		int opt = options.nextInt(3);
 
-        Random o = new Random();
-        int option = o.nextInt(3);
-
-        Random r = new Random();
-        int dice_Roll = r.nextInt(6)+1;
-
-        switch(option) {
-
-            case NO_PLAY:
-                System.out.println("Sorry,no play!");
-                break;
-            case LADDER:
-                position += dice_Roll;
-                System.out.println("Yahoo,you got ladder!");
-                break;
-            case SNAKE:
-                position -= dice_Roll;
-                System.out.println("hiss,snake bite!");
-                break;
-        }
-        System.out.println("After Rolling dice You are at position : " + position);
-    }
-
+		//checking the options for noPlay or ladder or snake
+		switch(opt){
+			case 0:
+					player1 = player1;
+					System.out.println("Sorry! You can't play and remains at same point");
+					break;
+			case 1:
+					player1 = player1 + dice;
+					System.out.println("Hurray! You got a ladder and you have moved " + player1 + " steps forward");
+					break;
+			case 2:
+					player1 = player1 - dice;
+					System.out.println("Boo! You are bitten by the snake and moved " + player1 + " steps backward");
+					break;
+			default:
+					System.out.println("invaild");
+					break;
+		}
+	System.out.println(player1);
+	}
 }
+        
