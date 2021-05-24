@@ -91,7 +91,6 @@ public class SnakenLadder {
 			}
 
 			//printing position of player1
-//			System.out.println("Player1 is in " + player1 +" position");
 
         	if(player2 > 100){
             	player2 = previousPos2;
@@ -105,15 +104,7 @@ public class SnakenLadder {
         		break;
          	}
 
-			//printing position of player2
-//			System.out.println("Player2 is in " +player2 +" position");
-
 		}
-		//System.out.println("Player1 is in " + player1 +" position");
-		//System.out.println("Player2 is in " + player2 +" position");
-
-		//System.out.println("Player1 rolled the dice for " + player1Count + " times");
-		//System.out.println("Player2 rolled the dice for " + player2Count + " times");
 		if(player1 == 100){
 			System.out.println("Player 1 wins." );
 		}else if(player2 == 100){
