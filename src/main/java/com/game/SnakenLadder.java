@@ -3,53 +3,59 @@ package com.game;
 import java.util.Random;
 
 public class SnakenLadder {
+	public static void main(String[] args){
 
-    public static void main(String[] args) {
+		//initiallizing start point
+		int startPoint = 0;
 
-        // constants
-        final int START_POSITION = 0;
-        System.out.println("You are at position : " + START_POSITION);
-        final int WINNING_POSITION = 100;
-        final int NO_PLAY = 0;
-        final int LADDER = 1;
-        final int SNAKE = 2;
-        //Variables
-        int position = 0;
-        int noOfdieRolls = 0;
-        System.out.println("Rolling Dice" );
+		int player1 = startPoint;
+		int diceCount = 0;
 
-        while(position != WINNING_POSITION) {
+		//using while loop for reaching the winning position 100
+		while(player1 <= 100){
 
-            noOfdieRolls++;
-            Random o = new Random();
-            int option = o.nextInt(3);
+			//rolling the die to get a number b/w 1 and 6
+			Random roll = new Random();
+			int dice = roll.nextInt(6) + 1;
+			diceCount++; //incermenting the dice count
 
-            Random r = new Random();
-            int dice_Roll = r.nextInt(6)+1;
+			//generating options i.e., 0-noplay 1-ladder 2-snake
+			Random options = new Random();
+			int opt = options.nextInt(3);
 
-            switch(option) {
+			int previousPosition = player1;  //initiallizing previous position
 
-                case NO_PLAY:
-                    System.out.println("Sorry,no play!");
-                    break;
-                case LADDER:
-                    if (position + dice_Roll <= WINNING_POSITION ) {
-                        position += dice_Roll;
-                    }
-                    System.out.println("Yahoo,you got ladder!");
-                    break;
-                case SNAKE:
-                    if (position - dice_Roll >= 0) {
-                        position -= dice_Roll;
-                        System.out.println("hiss,snake bite!");
-                    } else {
-                        position = 0;
-                    }
-                    break;
-            }
-            System.out.println("After Rolling dice You are at position : " + position);
-        }
-        System.out.println("Number of times Die rolled : " + noOfdieRolls);
-        System.out.println("HURRAY!,You are win");
-    }
+			//checking the options for noPlay or ladder or snake
+			switch(opt){
+				case 0: //no play
+						player1 = player1;
+						break;
+				case 1: //ladder
+						player1 = player1 + dice;
+						break;
+				case 2: //snake
+						player1 = player1 - dice;
+						break;
+				default:
+						System.out.println("invaild");
+						break;
+			}
+			//to win exactly by 100 so it has to roll again
+			if(player1 > 100){
+				player1 = previousPosition;
+			}
+
+			//if position goes to negative then player is restarting the game
+			if(player1 < 0){
+				player1 = startPoint;
+			}
+
+			if(player1 == 100){
+				break;
+			}
+			System.out.println("You are in " +player1 +" position");
+		}
+		System.out.println("You have rolled the dice for " + diceCount + " times");
+		System.out.println("Hurrah! You have reached 100." );
+	}
 }
