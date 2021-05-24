@@ -3,89 +3,121 @@ package com.game;
 import java.util.Random;
 
 public class SnakenLadder {
-    //Constants
-    static final int START_POSITION = 0;
-    static final int WINNING_POSITION = 100;
-    static final int LADDER = 1;
-    static final int SNAKE = 2;
+	public static void main(String[] args){
 
-    public static int[] play(int position) //returns integer type array
-    {
-        //Generating options for game
-        int option = (int) (Math.random()*10%3);
-        //Rolling a Die
-        int dieRoll = (int) (1+Math.random()*10%6);
-        int[] array = new int[2]; //Array to store details and return to main method
-        //Checking Ladder or Snake
-        switch(option)
-        {
-            case LADDER:
-                if((position+dieRoll) <= WINNING_POSITION)//<<---------------------
-                {
-                    position += dieRoll;
-                }
-                break;
-            case SNAKE:
-                if((position-dieRoll) >= 0)
-                {
-                    position -= dieRoll;
-                }
-                else
-                {
-                    position = 0;
-                }
-                break;
-            default: //NoPlay option
-                position += 0;
-        }
-        array[0] = option;
-        array[1] = position;
-        return array;
-    }
+		//initiallizing start point
+		int startPoint = 0;
 
-    public static void main(String[] args)
-    {
-        //variables
-        int noOfDieRolls_1 = 0;
-        int noOfDieRolls_2 = 0;
-        int player_1_position = START_POSITION;
-        int player_2_position = START_POSITION;
-        int player_1_option = LADDER; //To play initially
-        int player_2_option = LADDER;
-        int[] player_1 = new int[2]; //Array to get player_1 details from 'play' method
-        int[] player_2 = new int[2]; //Array to get player_2 details from 'play' method
+		int player1 = startPoint;
+		int player2 = startPoint;
 
-        //Start the game
-        while((player_1_position != WINNING_POSITION) && (player_2_position != WINNING_POSITION))
-        {
-            while(player_1_option == LADDER)
-            {
-                player_1 = play(player_1_position);//player1
-                player_1_option = player_1[0]; //option from play method
-                player_1_position = player_1[1]; //position from play method
-                noOfDieRolls_1++;
-            }
-            while(player_2_option == LADDER)
-            {
-                player_2 = play(player_2_position);//player2
-                player_2_option = player_2[0]; //option from play method
-                player_2_position = player_2[1]; //position from play method
-                noOfDieRolls_2++;
-            }
-            player_1_option = LADDER;
-            player_2_option = LADDER;
-        }
+		int player1Count = 0;
+		int player2Count = 0;
 
-        //Checking the winner
-        if(player_1_position == WINNING_POSITION)
-        {
-            System.out.println("The winner is: Player_1 with position: "+player_1_position);
-        }
-        else
-        {
-            System.out.println("The winner is: Player_2 with position: "+player_2_position);
-        }
-        System.out.println("Number of times die rolled: "+"\n"+"Player_1: "+noOfDieRolls_1+"\n"+"Player_2: "+noOfDieRolls_2);
-    }
+		int previousPos1 = 0;
+		int previousPos2 = 0;
+		//using while loop for reaching the winning position 100
+		while((player1 <= 100)&&(player2 <= 100)){
+			//rolling the die for player 1
+			Random roll1 = new Random();
+			int dice1 = roll1.nextInt(6) + 1;
+			player1Count++; //incermenting the player1's dice count
 
+			//rolling the die for player2
+			Random roll2 = new Random();
+			int dice2 = roll2.nextInt(6) + 1;
+			player2Count++; //incermenting the player2's dice count
+
+			//generating options for player1
+			Random options = new Random();
+			int opt = options.nextInt(3);
+
+			//generating options for player2
+			Random options2 = new Random();
+			int opt2 = options2.nextInt(3);
+
+			previousPos1 = player1;  //initiallizing previous position
+
+			//checking the options for noPlay or ladder or snake
+			switch(opt){
+				case 0: //no play
+						player1 = player1;
+						break;
+				case 1: //ladder
+						player1 = player1 + dice1;
+						Random rollAgain = new Random();
+						int dice = rollAgain.nextInt(6)+1;
+						player1 = player1 + dice;
+						player1Count++;
+						break;
+				case 2: //snake
+						player1 = player1 - dice1;
+						break;
+				default:
+						System.out.println("invaild");
+						break;
+			}
+			previousPos2 = player2;  //initiallizing previous position
+
+			//checking the options for noPlay or ladder or snake
+          	switch(opt2){
+				case 0: //no play
+                	player2 = player2;
+						break;
+        		case 1: //ladder
+                 	player2 = player2 + dice2;
+						Random rollAgain = new Random();
+                 	int dice = rollAgain.nextInt(6)+1;
+                 	player2 = player2 + dice;
+						player2Count++;
+                  break;
+        		case 2: //snake
+                  player2 = player2 - dice2;
+                  break;
+           	default:
+                	System.out.println("invaild");
+        		}
+
+			if(player1 > 100){
+				player1 = previousPos1;
+			}
+
+			else if(player1 < 0){
+				player1 = startPoint;
+			}
+
+			else if(player1 == 100){
+				break;
+			}
+
+			//printing position of player1
+//			System.out.println("Player1 is in " + player1 +" position");
+
+        	if(player2 > 100){
+            	player2 = previousPos2;
+         	}
+
+        	if(player2 < 0){
+            	player2 = startPoint;
+         	}
+
+         	if(player2 == 100){
+        		break;
+         	}
+
+			//printing position of player2
+//			System.out.println("Player2 is in " +player2 +" position");
+
+		}
+		//System.out.println("Player1 is in " + player1 +" position");
+		//System.out.println("Player2 is in " + player2 +" position");
+
+		//System.out.println("Player1 rolled the dice for " + player1Count + " times");
+		//System.out.println("Player2 rolled the dice for " + player2Count + " times");
+		if(player1 == 100){
+			System.out.println("Player 1 wins." );
+		}else if(player2 == 100){
+			System.out.println("Player 2 wins." );
+		}
+	}
 }
