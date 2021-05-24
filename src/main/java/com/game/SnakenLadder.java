@@ -3,47 +3,41 @@ package com.game;
 import java.util.Random;
 
 public class SnakenLadder {
+	public static void main(String[] args){
 
-    public static void main(String[] args) {
+		//initiallizing start point
+		int startPoint = 0;
+		int player1 = startPoint;
 
-        final int START_POSITION = 0;
-        System.out.println("You are at position : " + START_POSITION);
-        final int WINNING_POSITION = 100;
-        final int NO_PLAY = 0;
-        final int LADDER = 1;
-        final int SNAKE = 2;
-        int position = 0;
+		while(player1 <= 100){
+			//rolling the die to get a number b/w 1 and 6
+			Random roll = new Random();
+			int dice = roll.nextInt(6) + 1;
 
-        System.out.println("Rolling Dice" );
+			//generating options i.e., 0-noplay 1-ladder 2-snake
+			Random options = new Random();
+			int opt = options.nextInt(3);
 
-        while(position != WINNING_POSITION) {
-
-            Random o = new Random();
-            int option = o.nextInt(3);
-
-            Random r = new Random();
-            int dice_Roll = r.nextInt(6)+1;
-
-            switch(option) {
-
-                case NO_PLAY:
-                    System.out.println("Sorry,no play!");
-                    break;
-                case LADDER:
-                    position += dice_Roll;
-                    System.out.println("Yahoo,you got ladder!");
-                    break;
-                case SNAKE:
-                    if (position - dice_Roll >= 0) {
-                        position -= dice_Roll;
-                        System.out.println("hiss,snake bite!");
-                    } else {
-                        position = 0;
-                    }
-                    break;
-            }
-            System.out.println("After Rolling dice You are at position : " + position);
-            System.out.println("HURRAY!,You are win");
-        }
-    }
+			//checking the options for noPlay or ladder or snake
+			switch(opt){
+				case 0:
+						player1 = player1;
+						break;
+				case 1:
+						player1 = player1 + dice;
+						break;
+				case 2:
+						player1 = player1 - dice;
+						break;
+				default:
+						System.out.println("invaild");
+						break;
+			}
+			if(player1 < 0){
+				player1 = startPoint;
+			}
+		}
+		System.out.println("Hurrah! You have reached 100.");
+	}
 }
+  
